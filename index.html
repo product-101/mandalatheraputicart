@@ -1,0 +1,2747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Solve Mandala - Know Your Personality Type</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-light: #fafafa;
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --accent-primary: #6c5ce7;
+            --accent-secondary: #a29bfe;
+            --accent-warm: #fd79a8;
+            --accent-success: #00b894;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --border-radius: 20px;
+            --border-radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Google Ads Placeholders */
+        .ad-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(108, 92, 231, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .ad-placeholder-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ad-top-banner {
+            max-width: 728px;
+            margin: 0.5rem auto;
+            min-height: 90px;
+        }
+
+        .ad-sidebar {
+            min-height: 250px;
+            margin: 1rem 0;
+        }
+
+        .app-container {
+            max-width: 100%;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        /* Mood Selection */
+        .mood-selector {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            animation: slideUp 0.6s ease-out 0.1s backwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mood-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.2rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            border: 2px solid transparent;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mood-card:active {
+            transform: scale(0.95);
+        }
+
+        .mood-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .mood-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .mood-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .mood-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        /* Palette Modal */
+        .palette-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+            padding: 1rem;
+        }
+
+        .palette-modal.active {
+            display: flex;
+        }
+
+        .palette-modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.4s ease;
+        }
+
+        .palette-modal-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .palette-modal-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .palette-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .palette-option {
+            border: 2px solid #e1e8ed;
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .palette-option:active {
+            transform: scale(0.98);
+        }
+
+        .palette-option.selected {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(162, 155, 254, 0.05));
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+
+        .palette-option-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .palette-option-colors {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .palette-preview-swatch {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .palette-option-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .palette-modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-button {
+            padding: 0.9rem;
+            border: 2px solid #e1e8ed;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .modal-button:active {
+            transform: scale(0.95);
+        }
+
+        .modal-button.primary {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* Canvas Container */
+        .canvas-container {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .canvas-container.active {
+            display: block;
+        }
+
+        .coloring-workspace {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            min-height: 100vh;
+        }
+
+        /* Mobile-First Canvas */
+        .mandala-canvas {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            min-height: 400px;
+            position: relative;
+            background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+        }
+
+        .mandala-svg {
+            max-width: 100%;
+            max-height: 70vh;
+            filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.1));
+            touch-action: none;
+        }
+
+        .mandala-path {
+            fill: white;
+            stroke: var(--text-primary);
+            stroke-width: 1.5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mandala-path:hover {
+            stroke-width: 2.5;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Bottom Navigation (Thumb-friendly) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+            padding: 0.8rem 1rem calc(0.8rem + env(safe-area-inset-bottom));
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            padding: 0.8rem 0.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn.secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid #e1e8ed;
+        }
+
+        .nav-btn.new-pattern {
+            background: linear-gradient(135deg, var(--accent-warm), #ff6b9d);
+            grid-column: span 2;
+        }
+
+        .nav-btn-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Floating Top Bar */
+        .top-controls {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: var(--shadow-sm);
+            padding: 0.8rem 1rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+        }
+
+        .pattern-info-compact {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pattern-name-compact {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pattern-type-compact {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .progress-compact {
+            width: 60px;
+            height: 6px;
+            background: #e1e8ed;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill-compact {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        /* Floating Palette */
+        .floating-palette {
+            position: fixed;
+            background: white;
+            border: 3px solid var(--accent-primary);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1500;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-palette.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .floating-palette-header {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .floating-palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.6rem;
+            min-width: 200px;
+        }
+
+        .floating-color-swatch {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .floating-color-swatch:active {
+            transform: scale(0.9);
+        }
+
+        .floating-color-swatch.current {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+        }
+
+        .floating-palette-close {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-warm);
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .floating-palette-close:active {
+            transform: scale(0.9);
+        }
+
+        /* Color Palette Panel */
+        .color-panel {
+            position: fixed;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+            padding: 1rem;
+            z-index: 900;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .color-panel.active {
+            transform: translateY(0);
+        }
+
+        .color-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .color-panel-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .change-palette-btn {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.9rem;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .change-palette-btn:active {
+            transform: scale(0.95);
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.8rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .color-swatch {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .color-swatch:active {
+            transform: scale(0.9);
+        }
+
+        .color-swatch.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 3px rgba(45, 52, 54, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Tools Menu */
+        .tools-menu {
+            position: fixed;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+            padding: 1rem;
+            z-index: 900;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .tools-menu.active {
+            transform: translateY(0);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .tool-button {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tool-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .mandala-path.highlight {
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes patternChange {
+            0% { opacity: 1; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0; transform: scale(0.9) rotate(5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .mandala-svg.changing {
+            animation: patternChange 0.6s ease;
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+
+            header {
+                position: static;
+                border-radius: var(--border-radius);
+                margin-bottom: 2rem;
+            }
+
+            .mood-selector {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+                padding: 0;
+            }
+
+            .mood-card {
+                min-height: 160px;
+            }
+
+            .coloring-workspace {
+                display: grid;
+                grid-template-columns: 320px 1fr;
+                gap: 2rem;
+                border-radius: var(--border-radius);
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                min-height: auto;
+            }
+
+            .top-controls {
+                display: none;
+            }
+
+            .bottom-nav {
+                display: none;
+            }
+
+            .color-panel,
+            .tools-menu {
+                display: none;
+            }
+
+            .mandala-canvas {
+                background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+                border-radius: var(--border-radius);
+                min-height: 600px;
+            }
+
+            .mandala-svg {
+                max-height: 80vh;
+            }
+
+            /* Desktop Sidebar */
+            .desktop-sidebar {
+                display: flex !important;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .desktop-back-btn {
+                padding: 0.9rem;
+                background: white;
+                border: 2px solid #e1e8ed;
+                border-radius: var(--border-radius-sm);
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.95rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .desktop-back-btn:hover {
+                background: var(--accent-primary);
+                color: white;
+                border-color: var(--accent-primary);
+            }
+
+            .desktop-pattern-info {
+                background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(162, 155, 254, 0.05));
+                border-radius: var(--border-radius-sm);
+                padding: 1.2rem;
+                border: 2px solid rgba(108, 92, 231, 0.2);
+            }
+
+            .desktop-pattern-name {
+                font-weight: 600;
+                font-size: 1.1rem;
+                color: var(--text-primary);
+                margin-bottom: 0.3rem;
+            }
+
+            .desktop-pattern-type {
+                font-size: 0.85rem;
+                color: var(--text-secondary);
+            }
+
+            .desktop-color-palette {
+                background: white;
+                border-radius: var(--border-radius-sm);
+                padding: 1.2rem;
+                border: 2px solid #e1e8ed;
+            }
+
+            .desktop-palette-title {
+                font-weight: 600;
+                font-size: 1rem;
+                margin-bottom: 1rem;
+                color: var(--text-primary);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .desktop-palette-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.8rem;
+            }
+
+            .desktop-tools {
+                display: grid;
+                gap: 0.6rem;
+            }
+
+            .desktop-new-pattern {
+                background: linear-gradient(135deg, var(--accent-warm), #ff6b9d);
+                color: white;
+                border: none;
+                padding: 1rem;
+                font-weight: 600;
+            }
+
+            .desktop-new-pattern:hover {
+                background: linear-gradient(135deg, #ff6b9d, var(--accent-warm));
+            }
+
+            .desktop-progress {
+                width: 100%;
+                height: 8px;
+                background: #e1e8ed;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .desktop-progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, var(--accent-primary), var(--accent-warm));
+                width: 0%;
+                transition: width 0.5s ease;
+                border-radius: 10px;
+            }
+
+            .desktop-info {
+                background: linear-gradient(135deg, rgba(0, 184, 148, 0.05), rgba(253, 121, 168, 0.05));
+                border-radius: var(--border-radius-sm);
+                padding: 1.2rem;
+                border: 2px solid rgba(0, 184, 148, 0.2);
+            }
+
+            .desktop-info-text {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                color: var(--text-secondary);
+            }
+
+            .ad-sidebar {
+                display: block;
+            }
+        }
+
+        /* Mobile Only */
+        @media (max-width: 767px) {
+            .desktop-sidebar {
+                display: none !important;
+            }
+
+            .ad-sidebar {
+                display: none;
+            }
+
+            .ad-top-banner {
+                margin: 0.5rem;
+            }
+
+            .floating-palette-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .palette-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Submit Button */
+        .submit-container {
+            padding: 1rem;
+            text-align: center;
+            background: white;
+            margin-bottom: 80px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1rem 2.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 400px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, #5a4bd6, #8f7fee);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn .btn-spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .submit-hint {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Results Modal */
+        .results-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .results-modal.active {
+            display: flex;
+        }
+
+        .results-modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.5s ease;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .results-header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .result-category {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.05), rgba(162, 155, 254, 0.05));
+            border-radius: var(--border-radius-sm);
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .result-category-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-category-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .result-meter {
+            height: 8px;
+            background: #e1e8ed;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .result-meter-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .result-personality {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-radius: var(--border-radius-sm);
+            padding: 1.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .result-personality h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-personality p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .results-close-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .results-close-btn:hover {
+            background: #5a4bd6;
+        }
+
+        .results-close-btn:active {
+            transform: scale(0.97);
+        }
+
+        .results-share-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: white;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .results-share-btn:hover {
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        /* Desktop submit */
+        @media (min-width: 768px) {
+            .submit-container {
+                margin-bottom: 0;
+                padding: 1.5rem;
+            }
+
+            .desktop-submit-section {
+                margin-top: 0.5rem;
+            }
+
+            .desktop-submit-btn {
+                width: 100%;
+                padding: 0.9rem;
+                background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+                color: white;
+                border: none;
+                border-radius: var(--border-radius-sm);
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: var(--shadow-sm);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .desktop-submit-btn:hover {
+                background: linear-gradient(135deg, #5a4bd6, #8f7fee);
+                box-shadow: var(--shadow-md);
+            }
+
+            .desktop-submit-btn:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Haptic Feedback Simulation */
+        @media (hover: none) {
+            .nav-btn:active,
+            .tool-button:active,
+            .modal-button:active,
+            .mood-card:active {
+                transition: transform 0.1s ease;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Banner Ad Placeholder (Desktop) -->
+        <div class="ad-container ad-top-banner">
+            <div class="ad-placeholder-text">📢 Ad Space · 728x90</div>
+        </div>
+
+        <header>
+            <h1>Solve and Mandala</h1>
+            <p class="subtitle">Know your personality type</p>
+        </header>
+
+        <!-- Mood Selection -->
+        <div id="moodSelector" class="mood-selector">
+            <div class="mood-card" data-mood="calm">
+                <span class="mood-icon">🌊</span>
+                <div class="mood-title">Calm & Peace</div>
+                <div class="mood-desc">Chill ocean vibes</div>
+            </div>
+            <div class="mood-card" data-mood="energy">
+                <span class="mood-icon">☀️</span>
+                <div class="mood-title">Energy & Joy</div>
+                <div class="mood-desc">Vibrant & uplifting</div>
+            </div>
+            <div class="mood-card" data-mood="focus">
+                <span class="mood-icon">🎯</span>
+                <div class="mood-title">Focus & Clarity</div>
+                <div class="mood-desc">Clear mind mode</div>
+            </div>
+            <div class="mood-card" data-mood="healing">
+                <span class="mood-icon">💚</span>
+                <div class="mood-title">Healing & Growth</div>
+                <div class="mood-desc">Nature's energy</div>
+            </div>
+            <div class="mood-card" data-mood="creativity">
+                <span class="mood-icon">🎨</span>
+                <div class="mood-title">Creative Flow</div>
+                <div class="mood-desc">Express yourself</div>
+            </div>
+        </div>
+
+        <!-- Coloring Canvas -->
+        <div id="canvasContainer" class="canvas-container">
+            <div class="coloring-workspace">
+                <!-- Desktop Sidebar -->
+                <div class="desktop-sidebar">
+                    <button class="desktop-back-btn" id="desktopBackBtn">← Back to Vibes</button>
+                    
+                    <div class="desktop-pattern-info">
+                        <div class="desktop-pattern-name" id="desktopPatternName">Lotus Blossom</div>
+                        <div class="desktop-pattern-type" id="desktopPatternType">Traditional Mandala</div>
+                    </div>
+
+                    <!-- Sidebar Ad Placeholder -->
+                    <div class="ad-container ad-sidebar">
+                        <div class="ad-placeholder-text">📢 Ad Space · 300x250</div>
+                    </div>
+                    
+                    <div class="desktop-color-palette">
+                        <div class="desktop-palette-title">
+                            <span>Colors</span>
+                            <button class="change-palette-btn" id="desktopChangePaletteBtn">Change</button>
+                        </div>
+                        <div class="desktop-palette-grid" id="desktopColorPalette"></div>
+                    </div>
+
+                    <div class="desktop-tools">
+                        <button class="tool-button desktop-new-pattern" id="desktopNewPatternBtn">
+                            🔄 New Pattern
+                        </button>
+                        <button class="tool-button" id="desktopClearAll">🗑️ Clear All</button>
+                        <button class="tool-button" id="desktopRandomFill">🎲 Random Fill</button>
+                        <button class="tool-button" id="desktopDownloadBtn">💾 Save Image</button>
+                    </div>
+
+                    <div class="desktop-progress">
+                        <div class="desktop-progress-fill" id="desktopProgressFill"></div>
+                    </div>
+
+                    <div class="desktop-info">
+                        <div class="desktop-info-text" id="desktopThemeInfo"></div>
+                    </div>
+
+                    <div class="desktop-submit-section">
+                        <button class="desktop-submit-btn" id="desktopSubmitBtn" onclick="submitForAnalysis()">
+                            Analyze My Personality
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Top Controls -->
+                <div class="top-controls">
+                    <button class="back-btn" id="mobileBackBtn">←</button>
+                    <div class="pattern-info-compact">
+                        <div class="pattern-name-compact" id="patternNameCompact">Lotus Blossom</div>
+                        <div class="pattern-type-compact" id="patternTypeCompact">Traditional Mandala</div>
+                    </div>
+                    <div class="progress-compact">
+                        <div class="progress-fill-compact" id="progressFillCompact"></div>
+                    </div>
+                </div>
+
+                <!-- Canvas -->
+                <div class="mandala-canvas">
+                    <svg id="mandalaSvg" class="mandala-svg" viewBox="0 0 800 800" width="800" height="800"></svg>
+                </div>
+
+                <!-- Submit Button (Mobile) -->
+                <div class="submit-container" id="mobileSubmitContainer">
+                    <button class="submit-btn" id="mobileSubmitBtn" onclick="submitForAnalysis()">
+                        Analyze My Personality
+                    </button>
+                    <p class="submit-hint">Complete coloring and tap to discover your personality type</p>
+                </div>
+
+                <!-- Mobile Bottom Navigation (Thumb-friendly) -->
+                <div class="bottom-nav">
+                    <button class="nav-btn secondary" id="showColorsBtn">
+                        <span class="nav-btn-icon">🎨</span>
+                        <span>Colors</span>
+                    </button>
+                    <button class="nav-btn secondary" id="showToolsBtn">
+                        <span class="nav-btn-icon">🔧</span>
+                        <span>Tools</span>
+                    </button>
+                    <button class="nav-btn new-pattern" id="mobileNewPatternBtn">
+                        <span class="nav-btn-icon">🔄</span>
+                        <span>New Pattern</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Color Panel -->
+                <div class="color-panel" id="colorPanel">
+                    <div class="color-panel-header">
+                        <div class="color-panel-title">Choose Your Colors</div>
+                        <button class="change-palette-btn" id="mobileChangePaletteBtn">Change</button>
+                    </div>
+                    <div class="palette-grid" id="mobileColorPalette"></div>
+                </div>
+
+                <!-- Mobile Tools Menu -->
+                <div class="tools-menu" id="toolsMenu">
+                    <div class="tools-grid">
+                        <button class="tool-button" id="mobileClearAll">
+                            🗑️ Clear All
+                        </button>
+                        <button class="tool-button" id="mobileRandomFill">
+                            🎲 Random Fill
+                        </button>
+                        <button class="tool-button" id="mobileDownloadBtn" style="grid-column: span 2;">
+                            💾 Save as Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Color Palette -->
+    <div id="floatingPalette" class="floating-palette">
+        <div class="floating-palette-close" id="closePalette">×</div>
+        <div class="floating-palette-header">Pick a Color</div>
+        <div class="floating-palette-grid" id="floatingPaletteGrid"></div>
+    </div>
+
+    <!-- Color Palette Selection Modal -->
+    <div id="paletteModal" class="palette-modal">
+        <div class="palette-modal-content">
+            <div class="palette-modal-header">Choose Your Vibe</div>
+            <div class="palette-modal-subtitle">Pick the colors that speak to you</div>
+            <div class="palette-options" id="paletteOptions"></div>
+            <div class="palette-modal-buttons">
+                <button class="modal-button" id="cancelPalette">Cancel</button>
+                <button class="modal-button primary" id="confirmPalette">Let's Go!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Personality Results Modal -->
+    <div id="resultsModal" class="results-modal">
+        <div class="results-modal-content">
+            <div class="results-header">
+                <h2>Your Personality Profile</h2>
+                <p>Based on your mandala coloring activity</p>
+            </div>
+            <div id="resultsPersonality" class="result-personality">
+                <h3 id="personalityType">Loading...</h3>
+                <p id="personalitySubtext"></p>
+            </div>
+            <div id="resultsBody"></div>
+            <button class="results-close-btn" id="closeResults">Close</button>
+            <button class="results-share-btn" id="shareResults">Share My Results</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme configurations
+        const themes = {
+            calm: {
+                name: 'Calm & Peace',
+                info: 'Take a deep breath and let the colors flow. Each section is a moment of peace. 🌊',
+                palettes: [
+                    {
+                        name: 'Ocean Breeze',
+                        desc: 'Cool blues and seafoam greens',
+                        colors: ['#E8F4F8', '#B8D8E8', '#7FB3D5', '#4A90B5', '#2E5F7C', '#1A3A4A', '#D4E8E0', '#A8D5C8', '#7CC2AC', '#50A890']
+                    },
+                    {
+                        name: 'Misty Morning',
+                        desc: 'Soft grays and gentle purples',
+                        colors: ['#F5F5F5', '#E8E8F0', '#D1D1E0', '#B8B8D0', '#9999C0', '#7777A8', '#E8D8F0', '#D0B8E0', '#B898D0', '#9070B8']
+                    },
+                    {
+                        name: 'Sage Garden',
+                        desc: 'Earthy greens and muted tones',
+                        colors: ['#EEF0E8', '#D8E0C8', '#C0D0A8', '#A8C090', '#90A878', '#788860', '#E0E8D8', '#C8D8B8', '#B0C898', '#98B078']
+                    }
+                ],
+                patterns: ['traditional', 'geometric', 'therapeutic', 'modern']
+            },
+            energy: {
+                name: 'Energy & Joy',
+                info: 'Bring the sunshine! Every color is a burst of positive energy. ☀️',
+                palettes: [
+                    {
+                        name: 'Sunset Glow',
+                        desc: 'Warm oranges and golden yellows',
+                        colors: ['#FFF4E0', '#FFE4B5', '#FFD280', '#FFA726', '#FF8C00', '#E65100', '#FFEB99', '#FFD966', '#FFC233', '#FF9900']
+                    },
+                    {
+                        name: 'Tropical Paradise',
+                        desc: 'Bright corals and sunny yellows',
+                        colors: ['#FFF0E0', '#FFD0B0', '#FFB088', '#FF9060', '#FF7038', '#FF5010', '#FFE8C0', '#FFC888', '#FFA850', '#FF8818']
+                    },
+                    {
+                        name: 'Citrus Burst',
+                        desc: 'Zesty oranges and lime greens',
+                        colors: ['#FFFBE0', '#FFF088', '#FFE550', '#FFDA18', '#E0C800', '#B0A000', '#F0FFE0', '#D0FF88', '#B0E850', '#90D018']
+                    }
+                ],
+                patterns: ['modern', 'geometric', 'traditional', 'therapeutic']
+            },
+            focus: {
+                name: 'Focus & Clarity',
+                info: 'Center yourself. Let each stroke bring you clarity and peace of mind. 🎯',
+                palettes: [
+                    {
+                        name: 'Zen Stones',
+                        desc: 'Balanced grays and cool blues',
+                        colors: ['#F5F5F5', '#E0E0E0', '#BDBDBD', '#9E9E9E', '#757575', '#424242', '#C5CAE9', '#9FA8DA', '#7986CB', '#5C6BC0']
+                    },
+                    {
+                        name: 'Monochrome Meditation',
+                        desc: 'Pure blacks, whites, and grays',
+                        colors: ['#FFFFFF', '#F0F0F0', '#D8D8D8', '#C0C0C0', '#A0A0A0', '#808080', '#606060', '#404040', '#282828', '#101010']
+                    },
+                    {
+                        name: 'Silver Mist',
+                        desc: 'Metallic grays with blue tints',
+                        colors: ['#F8F8FA', '#E8E8F0', '#D0D0E0', '#B8B8D0', '#9898B8', '#7878A0', '#E0E8F0', '#C0D0E0', '#A0B8D0', '#8098B8']
+                    }
+                ],
+                patterns: ['geometric', 'therapeutic', 'modern', 'traditional']
+            },
+            healing: {
+                name: 'Healing & Growth',
+                info: 'Nurture your soul with colors of nature. Every section is a step toward healing. 💚',
+                palettes: [
+                    {
+                        name: 'Forest Healing',
+                        desc: 'Deep greens and earth tones',
+                        colors: ['#E8F5E9', '#C8E6C9', '#A5D6A7', '#81C784', '#66BB6A', '#4CAF50', '#E1F5DC', '#C5E8B7', '#A8DB92', '#8BCE6D']
+                    },
+                    {
+                        name: 'Spring Renewal',
+                        desc: 'Fresh greens and soft yellows',
+                        colors: ['#F0FFF0', '#D8FFD8', '#C0F0C0', '#A0E0A0', '#80D080', '#60C060', '#FFFFD8', '#F0F0A8', '#E0E080', '#D0D050']
+                    },
+                    {
+                        name: 'Herbal Garden',
+                        desc: 'Muted greens and lavender',
+                        colors: ['#E8F0E8', '#D0E0D0', '#B8D0B8', '#A0C0A0', '#88A888', '#709070', '#E8E0F0', '#D0C0E0', '#B8A0D0', '#9880B8']
+                    }
+                ],
+                patterns: ['therapeutic', 'traditional', 'modern', 'geometric']
+            },
+            creativity: {
+                name: 'Creative Flow',
+                info: 'Express yourself without limits! There are no rules, just vibes. 🎨',
+                palettes: [
+                    {
+                        name: 'Rainbow Dreams',
+                        desc: 'Full spectrum of vibrant colors',
+                        colors: ['#FCE4EC', '#F8BBD0', '#F48FB1', '#E91E63', '#C2185B', '#880E4F', '#E1BEE7', '#BA68C8', '#9C27B0', '#6A1B9A', '#B39DDB', '#7E57C2']
+                    },
+                    {
+                        name: 'Jewel Tones',
+                        desc: 'Rich purples, emeralds, and rubies',
+                        colors: ['#E8D8F8', '#C8A8E8', '#A878D8', '#8848C8', '#6818B8', '#4800A8', '#D8F8E8', '#A8E8C8', '#78D8A8', '#48C888', '#18B868', '#00A848']
+                    },
+                    {
+                        name: 'Pastel Paradise',
+                        desc: 'Soft rainbow pastels',
+                        colors: ['#FFE8E8', '#FFD8D8', '#FFC8E8', '#F0C8FF', '#E8D8FF', '#D8E8FF', '#D8F8FF', '#D8FFE8', '#E8FFD8', '#FFF8D8', '#FFE8D8', '#FFD8E8']
+                    }
+                ],
+                patterns: ['modern', 'traditional', 'geometric', 'therapeutic']
+            }
+        };
+
+        // Pattern definitions (same as before)
+        const patternDefinitions = {
+            traditional: [
+                { name: 'Sacred Lotus', generator: generateLotusPattern },
+                { name: 'Dharma Wheel', generator: generateDharmaWheelPattern },
+                { name: 'Tibetan Flower', generator: generateTibetanFlowerPattern },
+                { name: 'Om Symbol Mandala', generator: generateOmMandalaPattern },
+                { name: 'Buddhist Knot', generator: generateBuddhistKnotPattern }
+            ],
+            modern: [
+                { name: 'Spiral Galaxy', generator: generateSpiralGalaxyPattern },
+                { name: 'Crystal Formation', generator: generateCrystalPattern },
+                { name: 'Abstract Waves', generator: generateAbstractWavesPattern },
+                { name: 'Geometric Burst', generator: generateGeometricBurstPattern },
+                { name: 'Hexagonal Grid', generator: generateHexagonalPattern }
+            ],
+            geometric: [
+                { name: 'Sacred Geometry', generator: generateSacredGeometryPattern },
+                { name: 'Islamic Star', generator: generateIslamicStarPattern },
+                { name: 'Tessellation', generator: generateTessellationPattern },
+                { name: 'Fractal Snowflake', generator: generateFractalSnowflakePattern },
+                { name: 'Mandelbrot Circle', generator: generateMandelbrotCirclePattern }
+            ],
+            therapeutic: [
+                { name: 'Breathing Circle', generator: generateBreathingCirclePattern },
+                { name: 'Meditative Spiral', generator: generateMeditativeSpiralPattern },
+                { name: 'Zen Garden', generator: generateZenGardenPattern },
+                { name: 'Healing Petals', generator: generateHealingPetalsPattern },
+                { name: 'Peaceful Waves', generator: generatePeacefulWavesPattern }
+            ]
+        };
+
+        // State
+        let currentTheme = null;
+        let selectedColor = null;
+        let coloredPaths = new Set();
+        let currentClickedPath = null;
+        let floatingPalette = null;
+        let currentPaletteIndex = 0;
+        let currentPatternType = null;
+        let currentPatternIndex = 0;
+        let selectedPaletteIndex = 0;
+
+        // Mobile menu state
+        let colorPanelOpen = false;
+        let toolsMenuOpen = false;
+
+        // Pattern Generator Functions (keeping all the same generators from before)
+        function generateLotusPattern() {
+            const center = 400;
+            const paths = [];
+            for (let layer = 0; layer < 5; layer++) {
+                const radius = 80 + layer * 50;
+                const petalCount = 8 + layer * 4;
+                for (let i = 0; i < petalCount; i++) {
+                    const angle = (Math.PI * 2 * i) / petalCount;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const petalSize = 35 + layer * 5;
+                    paths.push(`<ellipse cx="${x}" cy="${y}" rx="${petalSize}" ry="${petalSize * 1.8}" transform="rotate(${angle * 180 / Math.PI} ${x} ${y})" class="mandala-path"/>`);
+                }
+            }
+            paths.push(`<circle cx="${center}" cy="${center}" r="50" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generateDharmaWheelPattern() {
+            const center = 400;
+            const paths = [];
+            const spokes = 8;
+            paths.push(`<circle cx="${center}" cy="${center}" r="280" class="mandala-path"/>`);
+            paths.push(`<circle cx="${center}" cy="${center}" r="220" class="mandala-path"/>`);
+            paths.push(`<circle cx="${center}" cy="${center}" r="160" class="mandala-path"/>`);
+            paths.push(`<circle cx="${center}" cy="${center}" r="100" class="mandala-path"/>`);
+            paths.push(`<circle cx="${center}" cy="${center}" r="60" class="mandala-path"/>`);
+            for (let i = 0; i < spokes; i++) {
+                const angle = (Math.PI * 2 * i) / spokes;
+                const x1 = center + Math.cos(angle) * 60;
+                const y1 = center + Math.sin(angle) * 60;
+                const x2 = center + Math.cos(angle) * 280;
+                const y2 = center + Math.sin(angle) * 280;
+                paths.push(`<path d="M ${x1} ${y1} L ${x2} ${y2}" class="mandala-path" style="fill:none"/>`);
+                const midX = center + Math.cos(angle) * 190;
+                const midY = center + Math.sin(angle) * 190;
+                paths.push(`<circle cx="${midX}" cy="${midY}" r="25" class="mandala-path"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        function generateTibetanFlowerPattern() {
+            const center = 400;
+            const paths = [];
+            for (let ring = 0; ring < 4; ring++) {
+                const radius = 100 + ring * 60;
+                const count = 6 + ring * 3;
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 * i) / count + (ring * Math.PI / 12);
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const petalPath = `M ${x} ${y - 30} Q ${x + 20} ${y - 15} ${x + 15} ${y} Q ${x + 20} ${y + 15} ${x} ${y + 30} Q ${x - 20} ${y + 15} ${x - 15} ${y} Q ${x - 20} ${y - 15} ${x} ${y - 30} Z`;
+                    paths.push(`<path d="${petalPath}" transform="rotate(${angle * 180 / Math.PI} ${x} ${y})" class="mandala-path"/>`);
+                }
+            }
+            paths.push(`<circle cx="${center}" cy="${center}" r="80" class="mandala-path"/>`);
+            paths.push(`<circle cx="${center}" cy="${center}" r="40" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generateOmMandalaPattern() {
+            const center = 400;
+            const paths = [];
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI * 2 * i) / 12;
+                const x = center + Math.cos(angle) * 250;
+                const y = center + Math.sin(angle) * 250;
+                paths.push(`<circle cx="${x}" cy="${y}" r="40" class="mandala-path"/>`);
+                const innerX = center + Math.cos(angle) * 150;
+                const innerY = center + Math.sin(angle) * 150;
+                paths.push(`<circle cx="${innerX}" cy="${innerY}" r="30" class="mandala-path"/>`);
+            }
+            for (let ring = 1; ring <= 3; ring++) {
+                paths.push(`<circle cx="${center}" cy="${center}" r="${ring * 40}" class="mandala-path"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        function generateBuddhistKnotPattern() {
+            const center = 400;
+            const paths = [];
+            for (let layer = 0; layer < 6; layer++) {
+                const radius = 50 + layer * 45;
+                const segments = 8;
+                for (let i = 0; i < segments; i++) {
+                    const angle1 = (Math.PI * 2 * i) / segments;
+                    const angle2 = (Math.PI * 2 * (i + 1)) / segments;
+                    const x1 = center + Math.cos(angle1) * radius;
+                    const y1 = center + Math.sin(angle1) * radius;
+                    const x2 = center + Math.cos(angle2) * radius;
+                    const y2 = center + Math.sin(angle2) * radius;
+                    const midAngle = (angle1 + angle2) / 2;
+                    const midX = center + Math.cos(midAngle) * (radius + 25);
+                    const midY = center + Math.sin(midAngle) * (radius + 25);
+                    paths.push(`<path d="M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}" class="mandala-path" style="fill:none"/>`);
+                }
+            }
+            return paths.join(' ');
+        }
+
+        function generateSpiralGalaxyPattern() {
+            const center = 400;
+            const paths = [];
+            const arms = 5;
+            for (let arm = 0; arm < arms; arm++) {
+                const startAngle = (Math.PI * 2 * arm) / arms;
+                for (let i = 0; i < 20; i++) {
+                    const t = i / 20;
+                    const angle = startAngle + t * Math.PI * 3;
+                    const radius = 50 + t * 250;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const size = 15 + i * 2;
+                    paths.push(`<circle cx="${x}" cy="${y}" r="${size}" class="mandala-path"/>`);
+                }
+            }
+            paths.push(`<circle cx="${center}" cy="${center}" r="60" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generateCrystalPattern() {
+            const center = 400;
+            const paths = [];
+            for (let layer = 0; layer < 4; layer++) {
+                const radius = 80 + layer * 70;
+                const sides = 6;
+                for (let i = 0; i < sides; i++) {
+                    const angle1 = (Math.PI * 2 * i) / sides;
+                    const angle2 = (Math.PI * 2 * (i + 1)) / sides;
+                    const x1 = center + Math.cos(angle1) * radius;
+                    const y1 = center + Math.sin(angle1) * radius;
+                    const x2 = center + Math.cos(angle2) * radius;
+                    const y2 = center + Math.sin(angle2) * radius;
+                    paths.push(`<path d="M ${center} ${center} L ${x1} ${y1} L ${x2} ${y2} Z" class="mandala-path"/>`);
+                    const midX = (x1 + x2) / 2;
+                    const midY = (y1 + y2) / 2;
+                    const outerMidX = center + (midX - center) * 1.3;
+                    const outerMidY = center + (midY - center) * 1.3;
+                    paths.push(`<path d="M ${x1} ${y1} L ${outerMidX} ${outerMidY} L ${x2} ${y2} Z" class="mandala-path"/>`);
+                }
+            }
+            return paths.join(' ');
+        }
+
+        function generateAbstractWavesPattern() {
+            const center = 400;
+            const paths = [];
+            const waves = 12;
+            for (let wave = 0; wave < waves; wave++) {
+                const baseAngle = (Math.PI * 2 * wave) / waves;
+                const points = [];
+                for (let i = 0; i <= 20; i++) {
+                    const t = i / 20;
+                    const angle = baseAngle + Math.sin(t * Math.PI * 4) * 0.3;
+                    const radius = 100 + t * 200 + Math.sin(t * Math.PI * 6) * 30;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    points.push(`${x},${y}`);
+                }
+                paths.push(`<polyline points="${points.join(' ')}" class="mandala-path" style="fill:none"/>`);
+            }
+            for (let i = 1; i <= 3; i++) {
+                paths.push(`<circle cx="${center}" cy="${center}" r="${i * 30}" class="mandala-path"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        function generateGeometricBurstPattern() {
+            const center = 400;
+            const paths = [];
+            const rays = 24;
+            for (let i = 0; i < rays; i++) {
+                const angle = (Math.PI * 2 * i) / rays;
+                const length = i % 2 === 0 ? 280 : 200;
+                const x1 = center + Math.cos(angle - 0.05) * 50;
+                const y1 = center + Math.sin(angle - 0.05) * 50;
+                const x2 = center + Math.cos(angle + 0.05) * 50;
+                const y2 = center + Math.sin(angle + 0.05) * 50;
+                const x3 = center + Math.cos(angle + 0.05) * length;
+                const y3 = center + Math.sin(angle + 0.05) * length;
+                const x4 = center + Math.cos(angle - 0.05) * length;
+                const y4 = center + Math.sin(angle - 0.05) * length;
+                paths.push(`<path d="M ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3} L ${x4} ${y4} Z" class="mandala-path"/>`);
+            }
+            paths.push(`<circle cx="${center}" cy="${center}" r="50" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generateHexagonalPattern() {
+            const center = 400;
+            const paths = [];
+            for (let ring = 0; ring < 5; ring++) {
+                const radius = 60 + ring * 50;
+                const hexSides = 6;
+                for (let i = 0; i < hexSides; i++) {
+                    const angle = (Math.PI * 2 * i) / hexSides;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const hexPoints = [];
+                    for (let j = 0; j < 6; j++) {
+                        const hexAngle = (Math.PI * 2 * j) / 6;
+                        const hexSize = 25 + ring * 3;
+                        hexPoints.push(`${x + Math.cos(hexAngle) * hexSize},${y + Math.sin(hexAngle) * hexSize}`);
+                    }
+                    paths.push(`<polygon points="${hexPoints.join(' ')}" class="mandala-path"/>`);
+                }
+            }
+            const centerHexPoints = [];
+            for (let j = 0; j < 6; j++) {
+                const hexAngle = (Math.PI * 2 * j) / 6;
+                centerHexPoints.push(`${center + Math.cos(hexAngle) * 40},${center + Math.sin(hexAngle) * 40}`);
+            }
+            paths.push(`<polygon points="${centerHexPoints.join(' ')}" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generateSacredGeometryPattern() {
+            const center = 400;
+            const paths = [];
+            const circleRadius = 60;
+            const positions = [
+                [0, 0],
+                [circleRadius * Math.sqrt(3), 0],
+                [circleRadius * Math.sqrt(3) / 2, circleRadius * 1.5],
+                [-circleRadius * Math.sqrt(3) / 2, circleRadius * 1.5],
+                [-circleRadius * Math.sqrt(3), 0],
+                [-circleRadius * Math.sqrt(3) / 2, -circleRadius * 1.5],
+                [circleRadius * Math.sqrt(3) / 2, -circleRadius * 1.5]
+            ];
+            for (let scale = 1; scale <= 3; scale++) {
+                positions.forEach(([dx, dy]) => {
+                    paths.push(`<circle cx="${center + dx * scale}" cy="${center + dy * scale}" r="${circleRadius}" class="mandala-path"/>`);
+                });
+            }
+            return paths.join(' ');
+        }
+
+        function generateIslamicStarPattern() {
+            const center = 400;
+            const paths = [];
+            const points = 8;
+            for (let layer = 0; layer < 4; layer++) {
+                const innerR = 80 + layer * 50;
+                const outerR = 120 + layer * 50;
+                const starPoints = [];
+                for (let i = 0; i < points * 2; i++) {
+                    const angle = (Math.PI * i) / points - Math.PI / 2;
+                    const r = i % 2 === 0 ? outerR : innerR;
+                    const x = center + Math.cos(angle) * r;
+                    const y = center + Math.sin(angle) * r;
+                    starPoints.push(`${x},${y}`);
+                }
+                paths.push(`<polygon points="${starPoints.join(' ')}" class="mandala-path"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        function generateTessellationPattern() {
+            const center = 400;
+            const paths = [];
+            for (let ring = 0; ring < 6; ring++) {
+                const count = ring === 0 ? 1 : ring * 6;
+                const radius = ring * 45;
+                for (let i = 0; i < count; i++) {
+                    const angle = ring === 0 ? 0 : (Math.PI * 2 * i) / count;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const triPoints = [];
+                    for (let j = 0; j < 3; j++) {
+                        const triAngle = (Math.PI * 2 * j) / 3 + angle;
+                        triPoints.push(`${x + Math.cos(triAngle) * 25},${y + Math.sin(triAngle) * 25}`);
+                    }
+                    paths.push(`<polygon points="${triPoints.join(' ')}" class="mandala-path"/>`);
+                }
+            }
+            return paths.join(' ');
+        }
+
+        function generateFractalSnowflakePattern() {
+            const center = 400;
+            const paths = [];
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI * 2 * i) / 6;
+                const x1 = center;
+                const y1 = center;
+                const x2 = center + Math.cos(angle) * 280;
+                const y2 = center + Math.sin(angle) * 280;
+                paths.push(`<path d="M ${x1} ${y1} L ${x2} ${y2}" class="mandala-path" style="fill:none"/>`);
+                for (let j = 1; j <= 4; j++) {
+                    const t = j / 5;
+                    const branchX = center + Math.cos(angle) * 280 * t;
+                    const branchY = center + Math.sin(angle) * 280 * t;
+                    const leftAngle = angle - Math.PI / 3;
+                    const rightAngle = angle + Math.PI / 3;
+                    const branchLength = 40 * (1 - t);
+                    const leftX = branchX + Math.cos(leftAngle) * branchLength;
+                    const leftY = branchY + Math.sin(leftAngle) * branchLength;
+                    const rightX = branchX + Math.cos(rightAngle) * branchLength;
+                    const rightY = branchY + Math.sin(rightAngle) * branchLength;
+                    paths.push(`<path d="M ${branchX} ${branchY} L ${leftX} ${leftY}" class="mandala-path" style="fill:none"/>`);
+                    paths.push(`<path d="M ${branchX} ${branchY} L ${rightX} ${rightY}" class="mandala-path" style="fill:none"/>`);
+                }
+            }
+            paths.push(`<circle cx="${center}" cy="${center}" r="30" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generateMandelbrotCirclePattern() {
+            const center = 400;
+            const paths = [];
+            for (let iteration = 0; iteration < 5; iteration++) {
+                const baseRadius = 50 + iteration * 50;
+                const count = 8 + iteration * 4;
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 * i) / count;
+                    const variation = Math.sin(i * 1.5) * 20;
+                    const radius = baseRadius + variation;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const circleSize = 12 + Math.abs(variation) / 2;
+                    paths.push(`<circle cx="${x}" cy="${y}" r="${circleSize}" class="mandala-path"/>`);
+                }
+            }
+            return paths.join(' ');
+        }
+
+        function generateBreathingCirclePattern() {
+            const center = 400;
+            const paths = [];
+            for (let i = 0; i < 8; i++) {
+                const radius = 60 + i * 35;
+                paths.push(`<circle cx="${center}" cy="${center}" r="${radius}" class="mandala-path"/>`);
+            }
+            for (let i = 0; i < 16; i++) {
+                const angle = (Math.PI * 2 * i) / 16;
+                const x = center + Math.cos(angle) * 200;
+                const y = center + Math.sin(angle) * 200;
+                paths.push(`<circle cx="${x}" cy="${y}" r="25" class="mandala-path"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        function generateMeditativeSpiralPattern() {
+            const center = 400;
+            const paths = [];
+            const spirals = 3;
+            for (let spiral = 0; spiral < spirals; spiral++) {
+                const points = [];
+                const startAngle = (Math.PI * 2 * spiral) / spirals;
+                for (let i = 0; i <= 100; i++) {
+                    const t = i / 100;
+                    const angle = startAngle + t * Math.PI * 4;
+                    const radius = 30 + t * 250;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    points.push(`${x},${y}`);
+                }
+                paths.push(`<polyline points="${points.join(' ')}" class="mandala-path" style="fill:none"/>`);
+            }
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI * 2 * i) / 12;
+                const x = center + Math.cos(angle) * 280;
+                const y = center + Math.sin(angle) * 280;
+                paths.push(`<circle cx="${x}" cy="${y}" r="20" class="mandala-path"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        function generateZenGardenPattern() {
+            const center = 400;
+            const paths = [];
+            for (let i = 1; i <= 12; i++) {
+                const radius = i * 23;
+                paths.push(`<circle cx="${center}" cy="${center}" r="${radius}" class="mandala-path"/>`);
+            }
+            const stones = [
+                [center - 100, center - 100],
+                [center + 120, center - 80],
+                [center - 90, center + 110],
+                [center + 100, center + 100]
+            ];
+            stones.forEach(([x, y]) => {
+                paths.push(`<circle cx="${x}" cy="${y}" r="35" class="mandala-path"/>`);
+                paths.push(`<circle cx="${x}" cy="${y}" r="25" class="mandala-path"/>`);
+            });
+            return paths.join(' ');
+        }
+
+        function generateHealingPetalsPattern() {
+            const center = 400;
+            const paths = [];
+            for (let layer = 0; layer < 6; layer++) {
+                const radius = 70 + layer * 40;
+                const petalCount = 8;
+                for (let i = 0; i < petalCount; i++) {
+                    const angle = (Math.PI * 2 * i) / petalCount + (layer * Math.PI / 16);
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    const petalPath = `M ${x} ${y} Q ${x + 25} ${y - 25} ${x + 30} ${y} Q ${x + 25} ${y + 25} ${x} ${y} Q ${x - 25} ${y + 25} ${x - 30} ${y} Q ${x - 25} ${y - 25} ${x} ${y} Z`;
+                    paths.push(`<path d="${petalPath}" class="mandala-path"/>`);
+                }
+            }
+            paths.push(`<circle cx="${center}" cy="${center}" r="50" class="mandala-path"/>`);
+            return paths.join(' ');
+        }
+
+        function generatePeacefulWavesPattern() {
+            const center = 400;
+            const paths = [];
+            for (let wave = 0; wave < 16; wave++) {
+                const baseAngle = (Math.PI * 2 * wave) / 16;
+                const points = [];
+                for (let i = 0; i <= 30; i++) {
+                    const t = i / 30;
+                    const angle = baseAngle + Math.sin(t * Math.PI * 3) * 0.2;
+                    const radius = 80 + t * 200;
+                    const x = center + Math.cos(angle) * radius;
+                    const y = center + Math.sin(angle) * radius;
+                    points.push(`${x},${y}`);
+                }
+                paths.push(`<polyline points="${points.join(' ')}" class="mandala-path" style="fill:none"/>`);
+            }
+            return paths.join(' ');
+        }
+
+        // Initialize mood selection
+        document.querySelectorAll('.mood-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const mood = card.dataset.mood;
+                showPaletteModal(mood);
+            });
+        });
+
+        function showPaletteModal(mood) {
+            const theme = themes[mood];
+            const modal = document.getElementById('paletteModal');
+            const optionsContainer = document.getElementById('paletteOptions');
+            
+            optionsContainer.innerHTML = '';
+            
+            theme.palettes.forEach((palette, index) => {
+                const option = document.createElement('div');
+                option.className = 'palette-option';
+                if (index === 0) {
+                    option.classList.add('selected');
+                    selectedPaletteIndex = 0;
+                }
+                
+                option.innerHTML = `
+                    <div class="palette-option-name">${palette.name}</div>
+                    <div class="palette-option-colors">
+                        ${palette.colors.map(color => `<div class="palette-preview-swatch" style="background: ${color}"></div>`).join('')}
+                    </div>
+                    <div class="palette-option-desc">${palette.desc}</div>
+                `;
+                
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.palette-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedPaletteIndex = index;
+                });
+                
+                optionsContainer.appendChild(option);
+            });
+            
+            modal.classList.add('active');
+            
+            document.getElementById('confirmPalette').onclick = () => {
+                modal.classList.remove('active');
+                selectTheme(mood, selectedPaletteIndex);
+            };
+            
+            document.getElementById('cancelPalette').onclick = () => {
+                modal.classList.remove('active');
+            };
+        }
+
+        function selectTheme(mood, paletteIndex = 0) {
+            currentTheme = themes[mood];
+            currentPaletteIndex = paletteIndex;
+            coloredPaths.clear();
+
+            currentPatternType = currentTheme.patterns[0];
+            currentPatternIndex = 0;
+
+            interactionTracker.trackThemeSelection(mood, currentTheme.palettes[paletteIndex].name);
+
+            document.getElementById('moodSelector').style.display = 'none';
+            document.getElementById('canvasContainer').classList.add('active');
+
+            setupColorPalettes();
+
+            document.getElementById('desktopThemeInfo').textContent = currentTheme.info;
+
+            loadNewPattern();
+        }
+
+        function setupColorPalettes() {
+            const currentColors = currentTheme.palettes[currentPaletteIndex].colors;
+            
+            // Desktop palette
+            const desktopPalette = document.getElementById('desktopColorPalette');
+            desktopPalette.innerHTML = '';
+            currentColors.forEach((color, index) => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.background = color;
+                swatch.addEventListener('click', () => {
+                    document.querySelectorAll('#desktopColorPalette .color-swatch').forEach(s => s.classList.remove('active'));
+                    swatch.classList.add('active');
+                    selectedColor = color;
+                    updateMobileColorSelection(color);
+                });
+                if (index === 0) {
+                    swatch.click();
+                }
+                desktopPalette.appendChild(swatch);
+            });
+
+            // Mobile palette
+            const mobilePalette = document.getElementById('mobileColorPalette');
+            mobilePalette.innerHTML = '';
+            currentColors.forEach((color, index) => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.background = color;
+                swatch.addEventListener('click', () => {
+                    document.querySelectorAll('#mobileColorPalette .color-swatch').forEach(s => s.classList.remove('active'));
+                    swatch.classList.add('active');
+                    selectedColor = color;
+                    updateDesktopColorSelection(color);
+                    closeColorPanel();
+                });
+                if (index === 0 && !selectedColor) {
+                    swatch.click();
+                }
+                mobilePalette.appendChild(swatch);
+            });
+        }
+
+        function updateMobileColorSelection(color) {
+            document.querySelectorAll('#mobileColorPalette .color-swatch').forEach(swatch => {
+                swatch.classList.remove('active');
+                if (swatch.style.background === color) {
+                    swatch.classList.add('active');
+                }
+            });
+        }
+
+        function updateDesktopColorSelection(color) {
+            document.querySelectorAll('#desktopColorPalette .color-swatch').forEach(swatch => {
+                swatch.classList.remove('active');
+                if (swatch.style.background === color) {
+                    swatch.classList.add('active');
+                }
+            });
+        }
+
+        function loadNewPattern() {
+            const patterns = patternDefinitions[currentPatternType];
+            currentPatternIndex = Math.floor(Math.random() * patterns.length);
+            const selectedPattern = patterns[currentPatternIndex];
+
+            // Update all pattern info displays
+            const patternName = selectedPattern.name;
+            const patternType = `${currentPatternType.charAt(0).toUpperCase() + currentPatternType.slice(1)} Mandala`;
+
+            interactionTracker.trackPatternView(patternName, currentPatternType);
+
+            document.getElementById('patternNameCompact').textContent = patternName;
+            document.getElementById('patternTypeCompact').textContent = patternType;
+            document.getElementById('desktopPatternName').textContent = patternName;
+            document.getElementById('desktopPatternType').textContent = patternType;
+            
+            const svg = document.getElementById('mandalaSvg');
+            svg.classList.add('changing');
+            
+            setTimeout(() => {
+                const pattern = selectedPattern.generator();
+                svg.innerHTML = pattern;
+                
+                document.querySelectorAll('.mandala-path').forEach((path, index) => {
+                    path.dataset.index = index;
+                    path.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        showFloatingPalette(e, path);
+                    });
+                });
+                
+                coloredPaths.clear();
+                updateProgress();
+                svg.classList.remove('changing');
+            }, 300);
+            
+            const currentTypeIndex = currentTheme.patterns.indexOf(currentPatternType);
+            currentPatternType = currentTheme.patterns[(currentTypeIndex + 1) % currentTheme.patterns.length];
+        }
+
+        // Floating Palette Functions
+        function showFloatingPalette(event, path) {
+            currentClickedPath = path;
+            floatingPalette = document.getElementById('floatingPalette');
+            const floatingGrid = document.getElementById('floatingPaletteGrid');
+            
+            floatingGrid.innerHTML = '';
+            const currentColors = currentTheme.palettes[currentPaletteIndex].colors;
+            
+            currentColors.forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.className = 'floating-color-swatch';
+                swatch.style.background = color;
+                
+                if (color === selectedColor) {
+                    swatch.classList.add('current');
+                }
+                
+                swatch.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    applyColorToPath(color, path);
+                    hideFloatingPalette();
+                });
+                
+                floatingGrid.appendChild(swatch);
+            });
+            
+            const rect = event.target.getBoundingClientRect();
+            let left = event.clientX + 20;
+            let top = event.clientY - 50;
+            
+            const paletteWidth = 240;
+            const paletteHeight = 200;
+            
+            if (left + paletteWidth > window.innerWidth) {
+                left = event.clientX - paletteWidth - 20;
+            }
+            
+            if (top + paletteHeight > window.innerHeight) {
+                top = window.innerHeight - paletteHeight - 20;
+            }
+            
+            if (top < 0) {
+                top = 20;
+            }
+            
+            floatingPalette.style.left = left + 'px';
+            floatingPalette.style.top = top + 'px';
+            floatingPalette.classList.add('active');
+        }
+
+        function hideFloatingPalette() {
+            if (floatingPalette) {
+                floatingPalette.classList.remove('active');
+                currentClickedPath = null;
+            }
+        }
+
+        function applyColorToPath(color, path) {
+            path.style.fill = color;
+            path.classList.add('highlight');
+            setTimeout(() => path.classList.remove('highlight'), 500);
+
+            const index = parseInt(path.dataset.index);
+            coloredPaths.add(index);
+            updateProgress();
+
+            selectedColor = color;
+            updateDesktopColorSelection(color);
+            updateMobileColorSelection(color);
+
+            interactionTracker.trackColorUsed(color);
+            interactionTracker.trackAction('color');
+        }
+
+        function updateProgress() {
+            const total = document.querySelectorAll('.mandala-path').length;
+            const filled = coloredPaths.size;
+            const percentage = (filled / total) * 100;
+            document.getElementById('progressFillCompact').style.width = percentage + '%';
+            document.getElementById('desktopProgressFill').style.width = percentage + '%';
+        }
+
+        // Mobile Menu Controls
+        document.getElementById('showColorsBtn').addEventListener('click', () => {
+            colorPanelOpen = !colorPanelOpen;
+            const colorPanel = document.getElementById('colorPanel');
+            const toolsMenu = document.getElementById('toolsMenu');
+            
+            if (colorPanelOpen) {
+                colorPanel.classList.add('active');
+                toolsMenu.classList.remove('active');
+                toolsMenuOpen = false;
+            } else {
+                colorPanel.classList.remove('active');
+            }
+        });
+
+        document.getElementById('showToolsBtn').addEventListener('click', () => {
+            toolsMenuOpen = !toolsMenuOpen;
+            const toolsMenu = document.getElementById('toolsMenu');
+            const colorPanel = document.getElementById('colorPanel');
+            
+            if (toolsMenuOpen) {
+                toolsMenu.classList.add('active');
+                colorPanel.classList.remove('active');
+                colorPanelOpen = false;
+            } else {
+                toolsMenu.classList.remove('active');
+            }
+        });
+
+        function closeColorPanel() {
+            document.getElementById('colorPanel').classList.remove('active');
+            colorPanelOpen = false;
+        }
+
+        function closeToolsMenu() {
+            document.getElementById('toolsMenu').classList.remove('active');
+            toolsMenuOpen = false;
+        }
+
+        // Event Listeners
+        document.addEventListener('click', (e) => {
+            if (floatingPalette && 
+                floatingPalette.classList.contains('active') && 
+                !floatingPalette.contains(e.target) &&
+                !e.target.classList.contains('mandala-path')) {
+                hideFloatingPalette();
+            }
+        });
+
+        document.getElementById('closePalette').addEventListener('click', (e) => {
+            e.stopPropagation();
+            hideFloatingPalette();
+        });
+
+        // Back buttons
+        document.getElementById('mobileBackBtn').addEventListener('click', backToHome);
+        document.getElementById('desktopBackBtn').addEventListener('click', backToHome);
+
+        function backToHome() {
+            document.getElementById('canvasContainer').classList.remove('active');
+            document.getElementById('moodSelector').style.display = 'grid';
+            currentTheme = null;
+            hideFloatingPalette();
+            closeColorPanel();
+            closeToolsMenu();
+        }
+
+        // New Pattern buttons
+        document.getElementById('mobileNewPatternBtn').addEventListener('click', loadNewPattern);
+        document.getElementById('desktopNewPatternBtn').addEventListener('click', loadNewPattern);
+
+        // Change Palette buttons
+        document.getElementById('mobileChangePaletteBtn').addEventListener('click', () => {
+            if (currentTheme) {
+                showPaletteChangeModal();
+            }
+        });
+        document.getElementById('desktopChangePaletteBtn').addEventListener('click', () => {
+            if (currentTheme) {
+                showPaletteChangeModal();
+            }
+        });
+
+        function showPaletteChangeModal() {
+            const modal = document.getElementById('paletteModal');
+            const optionsContainer = document.getElementById('paletteOptions');
+            
+            optionsContainer.innerHTML = '';
+            
+            currentTheme.palettes.forEach((palette, index) => {
+                const option = document.createElement('div');
+                option.className = 'palette-option';
+                if (index === currentPaletteIndex) {
+                    option.classList.add('selected');
+                    selectedPaletteIndex = index;
+                }
+                
+                option.innerHTML = `
+                    <div class="palette-option-name">${palette.name}</div>
+                    <div class="palette-option-colors">
+                        ${palette.colors.map(color => `<div class="palette-preview-swatch" style="background: ${color}"></div>`).join('')}
+                    </div>
+                    <div class="palette-option-desc">${palette.desc}</div>
+                `;
+                
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.palette-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedPaletteIndex = index;
+                });
+                
+                optionsContainer.appendChild(option);
+            });
+            
+            modal.classList.add('active');
+            
+            document.getElementById('confirmPalette').onclick = () => {
+                modal.classList.remove('active');
+                currentPaletteIndex = selectedPaletteIndex;
+                setupColorPalettes();
+                interactionTracker.trackPaletteChange();
+                interactionTracker.trackAction('paletteChange');
+            };
+        }
+
+        // Clear All buttons
+        document.getElementById('mobileClearAll').addEventListener('click', clearAll);
+        document.getElementById('desktopClearAll').addEventListener('click', clearAll);
+
+        function clearAll() {
+            document.querySelectorAll('.mandala-path').forEach(path => {
+                path.style.fill = 'white';
+            });
+            coloredPaths.clear();
+            updateProgress();
+            closeToolsMenu();
+            interactionTracker.trackClearAll();
+            interactionTracker.trackAction('clearAll');
+        }
+
+        // Random Fill buttons
+        document.getElementById('mobileRandomFill').addEventListener('click', randomFill);
+        document.getElementById('desktopRandomFill').addEventListener('click', randomFill);
+
+        function randomFill() {
+            const currentColors = currentTheme.palettes[currentPaletteIndex].colors;
+            document.querySelectorAll('.mandala-path').forEach((path, index) => {
+                const randomColor = currentColors[Math.floor(Math.random() * currentColors.length)];
+                path.style.fill = randomColor;
+                coloredPaths.add(index);
+            });
+            updateProgress();
+            closeToolsMenu();
+            interactionTracker.trackRandomFill();
+            interactionTracker.trackAction('randomFill');
+        }
+
+        // Download buttons
+        document.getElementById('mobileDownloadBtn').addEventListener('click', downloadImage);
+        document.getElementById('desktopDownloadBtn').addEventListener('click', downloadImage);
+
+        function downloadImage() {
+            const svg = document.getElementById('mandalaSvg');
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const canvas = document.createElement('canvas');
+            canvas.width = 1600;
+            canvas.height = 1600;
+            const ctx = canvas.getContext('2d');
+
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0);
+                const link = document.createElement('a');
+                const patternName = document.getElementById('patternNameCompact').textContent.replace(/\s+/g, '-');
+                link.download = `solve-and-mandala-${patternName}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+            closeToolsMenu();
+        }
+
+        // ========================================
+        // Interaction Tracking System
+        // ========================================
+        const interactionTracker = {
+            sessionStart: Date.now(),
+            themeChosen: null,
+            paletteChosen: null,
+            patternsViewed: [],
+            currentPatternName: null,
+            currentPatternCategory: null,
+            colorsUsed: {},
+            colorSequence: [],
+            patternChanges: 0,
+            paletteChanges: 0,
+            totalClicks: 0,
+            sectionsColored: 0,
+            totalSections: 0,
+            clearAllCount: 0,
+            randomFillCount: 0,
+            undoCount: 0,
+            timeBetweenActions: [],
+            lastActionTime: null,
+
+            trackAction(actionType, details) {
+                const now = Date.now();
+                if (this.lastActionTime) {
+                    this.timeBetweenActions.push(now - this.lastActionTime);
+                }
+                this.lastActionTime = now;
+                this.totalClicks++;
+            },
+
+            trackThemeSelection(mood, paletteName) {
+                this.themeChosen = mood;
+                this.paletteChosen = paletteName;
+            },
+
+            trackPatternView(patternName, patternCategory) {
+                this.patternsViewed.push({ name: patternName, category: patternCategory });
+                this.currentPatternName = patternName;
+                this.currentPatternCategory = patternCategory;
+                this.patternChanges++;
+            },
+
+            trackColorUsed(color) {
+                if (!this.colorsUsed[color]) {
+                    this.colorsUsed[color] = 0;
+                }
+                this.colorsUsed[color]++;
+                this.colorSequence.push(color);
+                this.sectionsColored = coloredPaths.size;
+            },
+
+            trackPaletteChange() {
+                this.paletteChanges++;
+            },
+
+            trackClearAll() {
+                this.clearAllCount++;
+            },
+
+            trackRandomFill() {
+                this.randomFillCount++;
+            },
+
+            getSessionDuration() {
+                return Math.round((Date.now() - this.sessionStart) / 1000);
+            },
+
+            getAverageTimeBetweenActions() {
+                if (this.timeBetweenActions.length === 0) return 0;
+                const sum = this.timeBetweenActions.reduce((a, b) => a + b, 0);
+                return Math.round(sum / this.timeBetweenActions.length / 1000);
+            },
+
+            getUniqueColorsCount() {
+                return Object.keys(this.colorsUsed).length;
+            },
+
+            getMostUsedColors() {
+                return Object.entries(this.colorsUsed)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([color, count]) => ({ color, count }));
+            },
+
+            getColorDiversity() {
+                const totalColors = this.colorSequence.length;
+                if (totalColors === 0) return 0;
+                const uniqueColors = this.getUniqueColorsCount();
+                return Math.round((uniqueColors / Math.min(totalColors, 12)) * 100);
+            },
+
+            getSummary() {
+                this.totalSections = document.querySelectorAll('.mandala-path').length;
+                this.sectionsColored = coloredPaths.size;
+                const completionPercentage = this.totalSections > 0
+                    ? Math.round((this.sectionsColored / this.totalSections) * 100)
+                    : 0;
+
+                return {
+                    theme: this.themeChosen,
+                    palette: this.paletteChosen,
+                    currentPattern: this.currentPatternName,
+                    patternCategory: this.currentPatternCategory,
+                    patternsViewed: this.patternsViewed.length,
+                    patternCategories: [...new Set(this.patternsViewed.map(p => p.category))],
+                    colorsUsed: this.getUniqueColorsCount(),
+                    mostUsedColors: this.getMostUsedColors(),
+                    colorDiversity: this.getColorDiversity(),
+                    totalClicks: this.totalClicks,
+                    sectionsColored: this.sectionsColored,
+                    totalSections: this.totalSections,
+                    completionPercentage: completionPercentage,
+                    patternChanges: this.patternChanges,
+                    paletteChanges: this.paletteChanges,
+                    clearAllCount: this.clearAllCount,
+                    randomFillCount: this.randomFillCount,
+                    sessionDurationSec: this.getSessionDuration(),
+                    averageTimeBetweenActionsSec: this.getAverageTimeBetweenActions()
+                };
+            }
+        };
+
+        // ========================================
+        // Submit and Analysis Functions
+        // ========================================
+        async function submitForAnalysis() {
+            if (!currentTheme) return;
+
+            const summary = interactionTracker.getSummary();
+
+            if (summary.sectionsColored === 0) {
+                alert('Please color at least some sections of the mandala before analyzing your personality.');
+                return;
+            }
+
+            const mobileBtn = document.getElementById('mobileSubmitBtn');
+            const desktopBtn = document.getElementById('desktopSubmitBtn');
+
+            // Show loading
+            const originalText = 'Analyze My Personality';
+            const loadingHTML = '<span class="btn-spinner"></span> Analyzing...';
+            if (mobileBtn) { mobileBtn.innerHTML = loadingHTML; mobileBtn.disabled = true; }
+            if (desktopBtn) { desktopBtn.innerHTML = loadingHTML; desktopBtn.disabled = true; }
+
+            try {
+                const response = await fetch('/.netlify/functions/analyze-personality', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(summary)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Analysis failed');
+                }
+
+                const result = await response.json();
+                displayResults(result);
+            } catch (error) {
+                console.error('Analysis error:', error);
+                // Fallback to client-side analysis
+                const fallbackResult = generateClientSideAnalysis(summary);
+                displayResults(fallbackResult);
+            } finally {
+                if (mobileBtn) { mobileBtn.innerHTML = originalText; mobileBtn.disabled = false; }
+                if (desktopBtn) { desktopBtn.innerHTML = originalText; desktopBtn.disabled = false; }
+            }
+        }
+
+        function generateClientSideAnalysis(summary) {
+            // Client-side fallback analysis based on interaction patterns
+            const colorMap = {
+                warm: ['#FF', '#FFA', '#FFD', '#FFE', '#E6', '#FF8', '#FF9', '#FF7', '#FF5', '#FF6'],
+                cool: ['#7F', '#4A', '#2E', '#1A', '#B8', '#E8F', '#C5', '#9F', '#79', '#5C'],
+                neutral: ['#F5', '#E0', '#BD', '#9E', '#75', '#42', '#D8', '#C0', '#A0', '#80'],
+                vibrant: ['#E9', '#C2', '#88', '#6A', '#9C', '#BA', '#FF', '#00'],
+                pastel: ['#FCE', '#F8B', '#F48', '#E1B', '#FFE8', '#FFD8', '#FFC8', '#D8FF']
+            };
+
+            // Determine color personality
+            const colorsStr = summary.mostUsedColors.map(c => c.color).join(',');
+            let colorPersonality = 'balanced';
+            let warmCount = 0, coolCount = 0;
+            summary.mostUsedColors.forEach(c => {
+                const hex = c.color.toUpperCase();
+                if (hex.includes('FF') && (hex.includes('A') || hex.includes('D') || hex.includes('E'))) warmCount++;
+                if (hex.includes('7F') || hex.includes('4A') || hex.includes('B8') || hex.includes('5C')) coolCount++;
+            });
+            if (warmCount > coolCount) colorPersonality = 'warm';
+            else if (coolCount > warmCount) colorPersonality = 'cool';
+
+            // Personality type based on theme
+            const themePersonalities = {
+                calm: { type: 'The Peaceful Soul', desc: 'You seek harmony and inner balance in everything you do.' },
+                energy: { type: 'The Dynamic Spirit', desc: 'You radiate positive energy and bring light to those around you.' },
+                focus: { type: 'The Mindful Thinker', desc: 'You value clarity of thought and purposeful action.' },
+                healing: { type: 'The Nurturing Heart', desc: 'You find strength in growth and helping others flourish.' },
+                creativity: { type: 'The Visionary Creator', desc: 'You see the world through a lens of endless possibilities.' }
+            };
+
+            const personality = themePersonalities[summary.theme] || themePersonalities.calm;
+
+            // Sentiment analysis
+            let sentiment = 'positive';
+            let sentimentScore = 70;
+            if (summary.clearAllCount > 2) { sentiment = 'exploratory'; sentimentScore = 60; }
+            if (summary.completionPercentage > 80) { sentimentScore = 90; sentiment = 'determined'; }
+            if (summary.randomFillCount > 1) { sentimentScore = 55; sentiment = 'spontaneous'; }
+
+            // Creativity level
+            let creativityScore = Math.min(100, summary.colorDiversity + (summary.patternChanges * 10) + (summary.paletteChanges * 15));
+            let creativityLevel = 'moderate';
+            if (creativityScore > 80) creativityLevel = 'high';
+            else if (creativityScore < 40) creativityLevel = 'focused';
+
+            // Decision making
+            let decisionScore = 70;
+            let decisionStyle = 'balanced';
+            if (summary.averageTimeBetweenActionsSec < 3) { decisionScore = 85; decisionStyle = 'quick and intuitive'; }
+            else if (summary.averageTimeBetweenActionsSec > 8) { decisionScore = 60; decisionStyle = 'thoughtful and deliberate'; }
+            if (summary.clearAllCount > 1) { decisionScore = Math.max(40, decisionScore - 15); decisionStyle += ', revisionist'; }
+
+            // Knowledge / Pattern recognition
+            let knowledgeScore = 50;
+            if (summary.patternsViewed > 3) knowledgeScore += 15;
+            if (summary.colorsUsed > 5) knowledgeScore += 10;
+            if (summary.completionPercentage > 60) knowledgeScore += 15;
+            knowledgeScore = Math.min(100, knowledgeScore);
+
+            return {
+                personalityType: personality.type,
+                personalityDescription: personality.desc,
+                categories: [
+                    {
+                        title: 'Personality Type',
+                        icon: 'brain',
+                        text: `Based on your choice of the "${summary.theme}" theme and "${summary.palette}" palette, you express a ${colorPersonality} color personality. ${personality.desc} Your preference for ${summary.patternCategory || 'varied'} patterns shows an appreciation for ${summary.patternCategory === 'geometric' ? 'order and precision' : summary.patternCategory === 'therapeutic' ? 'mindfulness and healing' : summary.patternCategory === 'modern' ? 'innovation and novelty' : 'tradition and cultural depth'}.`,
+                        score: sentimentScore,
+                        color: '#6c5ce7'
+                    },
+                    {
+                        title: 'User Sentiment',
+                        icon: 'heart',
+                        text: `Your overall sentiment is "${sentiment}". You colored ${summary.sectionsColored} of ${summary.totalSections} sections (${summary.completionPercentage}% completion), suggesting you are ${summary.completionPercentage > 70 ? 'thorough and dedicated' : summary.completionPercentage > 40 ? 'engaged but flexible' : 'explorative and selective'}. ${summary.randomFillCount > 0 ? 'Your use of random fill shows a playful, spontaneous side.' : 'Your manual coloring shows patience and intentionality.'}`,
+                        score: sentimentScore,
+                        color: '#fd79a8'
+                    },
+                    {
+                        title: 'Knowledge & Awareness',
+                        icon: 'book',
+                        text: `Knowledge score: ${knowledgeScore}/100. You explored ${summary.patternsViewed} pattern${summary.patternsViewed !== 1 ? 's' : ''} across ${summary.patternCategories ? summary.patternCategories.length : 1} categor${summary.patternCategories && summary.patternCategories.length !== 1 ? 'ies' : 'y'}, demonstrating ${knowledgeScore > 70 ? 'broad curiosity and an eagerness to learn' : knowledgeScore > 50 ? 'a focused exploration style' : 'a deep-dive mentality, preferring to master one area'}. You used ${summary.colorsUsed} unique colors, showing ${summary.colorsUsed > 6 ? 'expansive awareness' : 'selective discernment'}.`,
+                        score: knowledgeScore,
+                        color: '#00b894'
+                    },
+                    {
+                        title: 'Creativity Level',
+                        icon: 'palette',
+                        text: `Creativity level: ${creativityLevel} (${creativityScore}/100). Your color diversity index is ${summary.colorDiversity}%, and you made ${summary.patternChanges} pattern changes and ${summary.paletteChanges} palette switch${summary.paletteChanges !== 1 ? 'es' : ''}. ${creativityScore > 70 ? 'You show a highly creative mind that enjoys experimentation and variety.' : creativityScore > 40 ? 'You balance creativity with focus, exploring within comfortable boundaries.' : 'You show a methodical approach, preferring depth over breadth in your creative expression.'}`,
+                        score: creativityScore,
+                        color: '#a29bfe'
+                    },
+                    {
+                        title: 'Decision Making',
+                        icon: 'target',
+                        text: `Your decision-making style is "${decisionStyle}" (score: ${decisionScore}/100). Average time between actions: ${summary.averageTimeBetweenActionsSec}s. ${summary.clearAllCount > 0 ? `You cleared your canvas ${summary.clearAllCount} time${summary.clearAllCount !== 1 ? 's' : ''}, showing willingness to start fresh and revise decisions.` : 'You rarely second-guessed yourself, indicating confidence in your choices.'} Session duration: ${Math.round(summary.sessionDurationSec / 60)} minute${Math.round(summary.sessionDurationSec / 60) !== 1 ? 's' : ''}, reflecting ${summary.sessionDurationSec > 300 ? 'deep engagement' : 'efficient execution'}.`,
+                        score: decisionScore,
+                        color: '#e17055'
+                    }
+                ]
+            };
+        }
+
+        function displayResults(result) {
+            const modal = document.getElementById('resultsModal');
+            const body = document.getElementById('resultsBody');
+
+            document.getElementById('personalityType').textContent = result.personalityType;
+            document.getElementById('personalitySubtext').textContent = result.personalityDescription;
+
+            body.innerHTML = '';
+            result.categories.forEach(cat => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'result-category';
+                categoryDiv.innerHTML = `
+                    <div class="result-category-title" style="color: ${cat.color}">
+                        ${cat.title}
+                    </div>
+                    <div class="result-category-text">${cat.text}</div>
+                    <div class="result-meter">
+                        <div class="result-meter-fill" style="width: 0%; background: ${cat.color};" data-target="${cat.score}"></div>
+                    </div>
+                `;
+                body.appendChild(categoryDiv);
+            });
+
+            modal.classList.add('active');
+
+            // Animate meters
+            setTimeout(() => {
+                document.querySelectorAll('.result-meter-fill').forEach(fill => {
+                    fill.style.width = fill.dataset.target + '%';
+                });
+            }, 100);
+        }
+
+        document.getElementById('closeResults').addEventListener('click', () => {
+            document.getElementById('resultsModal').classList.remove('active');
+        });
+
+        document.getElementById('shareResults').addEventListener('click', () => {
+            const personality = document.getElementById('personalityType').textContent;
+            const text = `I'm "${personality}" according to Solve and Mandala! Discover your personality type by coloring mandalas.`;
+            if (navigator.share) {
+                navigator.share({ title: 'My Mandala Personality', text: text, url: window.location.href });
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    const btn = document.getElementById('shareResults');
+                    btn.textContent = 'Copied to clipboard!';
+                    setTimeout(() => { btn.textContent = 'Share My Results'; }, 2000);
+                });
+            }
+        });
+    </script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCqyFmvIz9cFLZ2RbQfL_j76oDLKotvqKA",
+    authDomain: "graphicalmandalatherapy.firebaseapp.com",
+    projectId: "graphicalmandalatherapy",
+    storageBucket: "graphicalmandalatherapy.firebasestorage.app",
+    messagingSenderId: "250468332821",
+    appId: "1:250468332821:web:635fc880c8e301e19d651c",
+    measurementId: "G-6SVFX8M3HH"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
