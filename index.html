@@ -234,6 +234,292 @@
             font-size: 0.9rem;
         }
 
+        .palette-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e1e8ed;
+        }
+
+        .palette-tab {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .palette-tab:active {
+            transform: scale(0.95);
+        }
+
+        .palette-tab.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+
+        .palette-tab-content {
+            display: none;
+        }
+
+        .palette-tab-content.active {
+            display: block;
+        }
+
+        /* RGB Color Picker */
+        .rgb-picker-container {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: var(--border-radius-sm);
+            padding: 1.5rem;
+            border: 2px solid #e1e8ed;
+        }
+
+        .rgb-picker-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1.5rem;
+            border: 3px solid #e1e8ed;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .rgb-slider-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .rgb-slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .rgb-slider-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rgb-slider-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .rgb-slider-value {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            min-width: 45px;
+            text-align: center;
+        }
+
+        .rgb-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .rgb-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 3px solid var(--accent-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .rgb-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .rgb-slider::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+        }
+
+        .rgb-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 3px solid var(--accent-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .rgb-slider.red {
+            background: linear-gradient(to right, #000000, #ff0000);
+        }
+
+        .rgb-slider.green {
+            background: linear-gradient(to right, #000000, #00ff00);
+        }
+
+        .rgb-slider.blue {
+            background: linear-gradient(to right, #000000, #0000ff);
+        }
+
+        .rgb-hex-input-group {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            margin-top: 1.2rem;
+        }
+
+        .rgb-hex-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .rgb-hex-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .rgb-hex-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+
+        .rgb-preset-colors {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.6rem;
+            margin-top: 1.2rem;
+            padding-top: 1.2rem;
+            border-top: 2px solid #e1e8ed;
+        }
+
+        .rgb-preset-color {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #e1e8ed;
+            transition: all 0.2s ease;
+        }
+
+        .rgb-preset-color:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-primary);
+        }
+
+        .rgb-preset-color:active {
+            transform: scale(1.05);
+        }
+
+        .rgb-add-button {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .rgb-add-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .rgb-add-button:active {
+            transform: translateY(0);
+        }
+
+        .custom-colors-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius-sm);
+            min-height: 60px;
+        }
+
+        .custom-color-item {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            border: 2px solid #e1e8ed;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .custom-color-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-color-remove {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-warm);
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .custom-color-item:hover .custom-color-remove {
+            opacity: 1;
+        }
+
+        .custom-colors-empty {
+            width: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 1rem;
+        }
+
         .palette-options {
             display: grid;
             gap: 1rem;
@@ -479,19 +765,23 @@
             border-radius: 10px;
         }
 
-        /* Floating Palette */
+        /* Floating Palette - Draggable */
         .floating-palette {
             position: fixed;
             background: white;
             border: 3px solid var(--accent-primary);
             border-radius: var(--border-radius);
-            padding: 1rem;
+            padding: 0;
             box-shadow: var(--shadow-lg);
             z-index: 1500;
             opacity: 0;
             transform: scale(0.8);
             pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            min-width: 220px;
         }
 
         .floating-palette.active {
@@ -500,13 +790,48 @@
             pointer-events: all;
         }
 
+        .floating-palette.dragging {
+            transition: none;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+            cursor: grabbing;
+        }
+
+        .floating-palette-handle {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .floating-palette-handle:active {
+            cursor: grabbing;
+        }
+
+        .floating-palette-handle::before {
+            content: '⋮⋮';
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-right: 0.5rem;
+        }
+
         .floating-palette-header {
             font-weight: 600;
             font-size: 0.9rem;
-            color: var(--text-primary);
-            margin-bottom: 0.8rem;
+            color: white;
             text-align: center;
-            letter-spacing: 0.5px;
+            flex: 1;
+        }
+
+        .floating-palette-content {
+            padding: 1rem;
         }
 
         .floating-palette-grid {
@@ -537,23 +862,24 @@
         }
 
         .floating-palette-close {
-            position: absolute;
-            top: -12px;
-            right: -12px;
-            width: 32px;
-            height: 32px;
-            background: var(--accent-warm);
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.3);
             color: white;
-            border: 3px solid white;
-            border-radius: 50%;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             transition: all 0.2s ease;
-            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+        }
+
+        .floating-palette-close:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .floating-palette-close:active {
@@ -1333,22 +1659,95 @@
         </div>
     </div>
 
-    <!-- Floating Color Palette -->
+    <!-- Floating Color Palette - Draggable -->
     <div id="floatingPalette" class="floating-palette">
-        <div class="floating-palette-close" id="closePalette">×</div>
-        <div class="floating-palette-header">Pick a Color</div>
-        <div class="floating-palette-grid" id="floatingPaletteGrid"></div>
+        <div class="floating-palette-handle" id="paletteHandle">
+            <div class="floating-palette-header">Color Palette</div>
+            <button class="floating-palette-close" id="closePalette">×</button>
+        </div>
+        <div class="floating-palette-content">
+            <div class="floating-palette-grid" id="floatingPaletteGrid"></div>
+        </div>
     </div>
 
     <!-- Color Palette Selection Modal -->
     <div id="paletteModal" class="palette-modal">
         <div class="palette-modal-content">
-            <div class="palette-modal-header">Choose Your Vibe</div>
-            <div class="palette-modal-subtitle">Pick the colors that speak to you</div>
-            <div class="palette-options" id="paletteOptions"></div>
+            <div class="palette-modal-header">Choose Your Colors</div>
+            <div class="palette-modal-subtitle">Select preset palettes or create your own custom colors ✨</div>
+            
+            <!-- Tabs -->
+            <div class="palette-tabs">
+                <button class="palette-tab active" data-tab="presets">Preset Palettes</button>
+                <button class="palette-tab" data-tab="custom">Custom RGB</button>
+            </div>
+
+            <!-- Preset Palettes Tab -->
+            <div class="palette-tab-content active" id="presetsTab">
+                <div class="palette-options" id="paletteOptions"></div>
+            </div>
+
+            <!-- Custom RGB Tab -->
+            <div class="palette-tab-content" id="customTab">
+                <div class="rgb-picker-container">
+                    <div class="rgb-picker-preview" id="rgbPreview"></div>
+                    
+                    <div class="rgb-slider-group">
+                        <div class="rgb-slider-label">
+                            <span class="rgb-slider-name">
+                                <span class="rgb-slider-icon" style="background: #ff0000;"></span>
+                                Red
+                            </span>
+                            <span class="rgb-slider-value" id="redValue">128</span>
+                        </div>
+                        <input type="range" class="rgb-slider red" id="redSlider" min="0" max="255" value="128">
+                    </div>
+
+                    <div class="rgb-slider-group">
+                        <div class="rgb-slider-label">
+                            <span class="rgb-slider-name">
+                                <span class="rgb-slider-icon" style="background: #00ff00;"></span>
+                                Green
+                            </span>
+                            <span class="rgb-slider-value" id="greenValue">128</span>
+                        </div>
+                        <input type="range" class="rgb-slider green" id="greenSlider" min="0" max="255" value="128">
+                    </div>
+
+                    <div class="rgb-slider-group">
+                        <div class="rgb-slider-label">
+                            <span class="rgb-slider-name">
+                                <span class="rgb-slider-icon" style="background: #0000ff;"></span>
+                                Blue
+                            </span>
+                            <span class="rgb-slider-value" id="blueValue">128</span>
+                        </div>
+                        <input type="range" class="rgb-slider blue" id="blueSlider" min="0" max="255" value="128">
+                    </div>
+
+                    <div class="rgb-hex-input-group">
+                        <span class="rgb-hex-label">HEX:</span>
+                        <input type="text" class="rgb-hex-input" id="hexInput" value="#808080" maxlength="7" placeholder="#000000">
+                    </div>
+
+                    <div class="rgb-preset-colors" id="quickColors">
+                        <!-- Quick color presets will be inserted here -->
+                    </div>
+
+                    <button class="rgb-add-button" id="addCustomColor">
+                        <span>➕</span>
+                        <span>Add to My Palette</span>
+                    </button>
+
+                    <div class="custom-colors-list" id="customColorsList">
+                        <div class="custom-colors-empty">Your custom colors will appear here</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="palette-modal-buttons">
                 <button class="modal-button" id="cancelPalette">Cancel</button>
-                <button class="modal-button primary" id="confirmPalette">Let's Go!</button>
+                <button class="modal-button primary" id="confirmPalette">Apply Palette</button>
             </div>
         </div>
     </div>
@@ -1531,6 +1930,27 @@
         // Mobile menu state
         let colorPanelOpen = false;
         let toolsMenuOpen = false;
+
+        // Dragging state for floating palette
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let paletteStartX = 0;
+        let paletteStartY = 0;
+        let currentPaletteX = null;
+        let currentPaletteY = null;
+
+        // Custom colors state
+        let customColors = [];
+        let currentRGB = { r: 128, g: 128, b: 128 };
+        
+        // Quick color presets for RGB picker
+        const quickColorPresets = [
+            '#FF0000', '#FF6B00', '#FFD700', '#00FF00',
+            '#00FFFF', '#0000FF', '#8B00FF', '#FF00FF',
+            '#FFFFFF', '#C0C0C0', '#808080', '#000000',
+            '#FF1493', '#FF69B4', '#FFC0CB', '#FFB6C1'
+        ];
 
         // Pattern Generator Functions (keeping all the same generators from before)
         function generateLotusPattern() {
@@ -1966,6 +2386,151 @@
             });
         });
 
+        // Initialize RGB Picker
+        function initializeRGBPicker() {
+            const redSlider = document.getElementById('redSlider');
+            const greenSlider = document.getElementById('greenSlider');
+            const blueSlider = document.getElementById('blueSlider');
+            const hexInput = document.getElementById('hexInput');
+            const preview = document.getElementById('rgbPreview');
+            const quickColorsContainer = document.getElementById('quickColors');
+
+            // Populate quick colors
+            quickColorsContainer.innerHTML = '';
+            quickColorPresets.forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.className = 'rgb-preset-color';
+                swatch.style.background = color;
+                swatch.addEventListener('click', () => {
+                    hexToRGB(color);
+                    updateRGBDisplay();
+                });
+                quickColorsContainer.appendChild(swatch);
+            });
+
+            // RGB Sliders
+            redSlider.addEventListener('input', (e) => {
+                currentRGB.r = parseInt(e.target.value);
+                updateRGBDisplay();
+            });
+
+            greenSlider.addEventListener('input', (e) => {
+                currentRGB.g = parseInt(e.target.value);
+                updateRGBDisplay();
+            });
+
+            blueSlider.addEventListener('input', (e) => {
+                currentRGB.b = parseInt(e.target.value);
+                updateRGBDisplay();
+            });
+
+            // Hex Input
+            hexInput.addEventListener('input', (e) => {
+                let hex = e.target.value;
+                if (hex.startsWith('#') && (hex.length === 7 || hex.length === 4)) {
+                    hexToRGB(hex);
+                    updateRGBDisplay(false); // Don't update hex input to avoid cursor jumping
+                }
+            });
+
+            // Add custom color button
+            document.getElementById('addCustomColor').addEventListener('click', () => {
+                const color = rgbToHex(currentRGB.r, currentRGB.g, currentRGB.b);
+                if (!customColors.includes(color)) {
+                    customColors.push(color);
+                    updateCustomColorsList();
+                }
+            });
+
+            updateRGBDisplay();
+        }
+
+        function updateRGBDisplay(updateHex = true) {
+            const { r, g, b } = currentRGB;
+            const hex = rgbToHex(r, g, b);
+            
+            document.getElementById('redValue').textContent = r;
+            document.getElementById('greenValue').textContent = g;
+            document.getElementById('blueValue').textContent = b;
+            document.getElementById('redSlider').value = r;
+            document.getElementById('greenSlider').value = g;
+            document.getElementById('blueSlider').value = b;
+            document.getElementById('rgbPreview').style.background = hex;
+            
+            if (updateHex) {
+                document.getElementById('hexInput').value = hex;
+            }
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('').toUpperCase();
+        }
+
+        function hexToRGB(hex) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) {
+                hex = hex.split('').map(x => x + x).join('');
+            }
+            currentRGB.r = parseInt(hex.substr(0, 2), 16);
+            currentRGB.g = parseInt(hex.substr(2, 2), 16);
+            currentRGB.b = parseInt(hex.substr(4, 2), 16);
+        }
+
+        function updateCustomColorsList() {
+            const container = document.getElementById('customColorsList');
+            
+            if (customColors.length === 0) {
+                container.innerHTML = '<div class="custom-colors-empty">Your custom colors will appear here</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            customColors.forEach((color, index) => {
+                const item = document.createElement('div');
+                item.className = 'custom-color-item';
+                item.style.background = color;
+                item.title = color;
+                
+                const removeBtn = document.createElement('div');
+                removeBtn.className = 'custom-color-remove';
+                removeBtn.textContent = '×';
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    customColors.splice(index, 1);
+                    updateCustomColorsList();
+                });
+                
+                item.appendChild(removeBtn);
+                container.appendChild(item);
+            });
+        }
+
+        // Tab switching for palette modal
+        document.querySelectorAll('.palette-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                // Update active tab
+                document.querySelectorAll('.palette-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Update active content
+                document.querySelectorAll('.palette-tab-content').forEach(c => c.classList.remove('active'));
+                if (tabName === 'presets') {
+                    document.getElementById('presetsTab').classList.add('active');
+                } else if (tabName === 'custom') {
+                    document.getElementById('customTab').classList.add('active');
+                    if (!document.getElementById('redSlider').hasAttribute('data-initialized')) {
+                        initializeRGBPicker();
+                        document.getElementById('redSlider').setAttribute('data-initialized', 'true');
+                    }
+                }
+            });
+        });
+
         function showPaletteModal(mood) {
             const theme = themes[mood];
             const modal = document.getElementById('paletteModal');
@@ -2002,12 +2567,53 @@
             
             document.getElementById('confirmPalette').onclick = () => {
                 modal.classList.remove('active');
-                selectTheme(mood, selectedPaletteIndex);
+                
+                // Check if we're on custom tab and have custom colors
+                const customTab = document.getElementById('customTab');
+                if (customTab.classList.contains('active') && customColors.length > 0) {
+                    selectThemeWithCustomColors(mood);
+                } else {
+                    selectTheme(mood, selectedPaletteIndex);
+                }
             };
             
             document.getElementById('cancelPalette').onclick = () => {
                 modal.classList.remove('active');
             };
+        }
+
+        function selectThemeWithCustomColors(mood) {
+            currentTheme = themes[mood];
+            
+            // Create a custom palette entry
+            const customPalette = {
+                name: 'My Custom Palette',
+                desc: 'Your personalized colors',
+                colors: [...customColors]
+            };
+            
+            // Add custom palette to theme if not already there
+            const customIndex = currentTheme.palettes.findIndex(p => p.name === 'My Custom Palette');
+            if (customIndex !== -1) {
+                currentTheme.palettes[customIndex] = customPalette;
+                currentPaletteIndex = customIndex;
+            } else {
+                currentTheme.palettes.push(customPalette);
+                currentPaletteIndex = currentTheme.palettes.length - 1;
+            }
+            
+            coloredPaths.clear();
+            currentPatternType = currentTheme.patterns[0];
+            currentPatternIndex = 0;
+
+            interactionTracker.trackThemeSelection(mood, 'My Custom Palette');
+
+            document.getElementById('moodSelector').style.display = 'none';
+            document.getElementById('canvasContainer').classList.add('active');
+
+            setupColorPalettes();
+            document.getElementById('desktopThemeInfo').textContent = currentTheme.info;
+            loadNewPattern();
         }
 
         function selectTheme(mood, paletteIndex = 0) {
@@ -2152,34 +2758,42 @@
                 swatch.addEventListener('click', (e) => {
                     e.stopPropagation();
                     applyColorToPath(color, path);
-                    hideFloatingPalette();
+                    // Don't hide palette - keep it open for continuous coloring
                 });
                 
                 floatingGrid.appendChild(swatch);
             });
             
-            const rect = event.target.getBoundingClientRect();
-            let left = event.clientX + 20;
-            let top = event.clientY - 50;
-            
-            const paletteWidth = 240;
-            const paletteHeight = 200;
-            
-            if (left + paletteWidth > window.innerWidth) {
-                left = event.clientX - paletteWidth - 20;
+            // Only position on first show or if no saved position
+            if (!floatingPalette.classList.contains('active') || (currentPaletteX === null && currentPaletteY === null)) {
+                const rect = event.target.getBoundingClientRect();
+                let left = event.clientX + 20;
+                let top = event.clientY - 50;
+                
+                const paletteWidth = 240;
+                const paletteHeight = 250;
+                
+                if (left + paletteWidth > window.innerWidth) {
+                    left = event.clientX - paletteWidth - 20;
+                }
+                
+                if (top + paletteHeight > window.innerHeight) {
+                    top = window.innerHeight - paletteHeight - 20;
+                }
+                
+                if (top < 0) {
+                    top = 20;
+                }
+                
+                currentPaletteX = left;
+                currentPaletteY = top;
+                
+                floatingPalette.style.left = left + 'px';
+                floatingPalette.style.top = top + 'px';
             }
             
-            if (top + paletteHeight > window.innerHeight) {
-                top = window.innerHeight - paletteHeight - 20;
-            }
-            
-            if (top < 0) {
-                top = 20;
-            }
-            
-            floatingPalette.style.left = left + 'px';
-            floatingPalette.style.top = top + 'px';
             floatingPalette.classList.add('active');
+            initializeDragging();
         }
 
         function hideFloatingPalette() {
@@ -2201,6 +2815,14 @@
             selectedColor = color;
             updateDesktopColorSelection(color);
             updateMobileColorSelection(color);
+
+            // Update current color indicator in floating palette
+            document.querySelectorAll('.floating-color-swatch').forEach(swatch => {
+                swatch.classList.remove('current');
+                if (swatch.style.background === color) {
+                    swatch.classList.add('current');
+                }
+            });
 
             interactionTracker.trackColorUsed(color);
             interactionTracker.trackAction('color');
@@ -2254,19 +2876,96 @@
         }
 
         // Event Listeners
-        document.addEventListener('click', (e) => {
-            if (floatingPalette && 
-                floatingPalette.classList.contains('active') && 
-                !floatingPalette.contains(e.target) &&
-                !e.target.classList.contains('mandala-path')) {
-                hideFloatingPalette();
-            }
-        });
-
+        // Don't auto-hide palette when clicking outside - user can close it manually
+        // This allows for continuous coloring workflow
+        
         document.getElementById('closePalette').addEventListener('click', (e) => {
             e.stopPropagation();
             hideFloatingPalette();
         });
+
+        // Initialize dragging functionality for floating palette
+        function initializeDragging() {
+            const palette = document.getElementById('floatingPalette');
+            const handle = document.getElementById('paletteHandle');
+            
+            if (!handle) return;
+            
+            // Mouse events
+            handle.addEventListener('mousedown', startDragging);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDragging);
+            
+            // Touch events
+            handle.addEventListener('touchstart', startDragging, { passive: false });
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('touchend', stopDragging);
+        }
+
+        function startDragging(e) {
+            if (e.target.closest('.floating-palette-close')) return; // Don't drag when clicking close button
+            
+            isDragging = true;
+            const palette = document.getElementById('floatingPalette');
+            palette.classList.add('dragging');
+            
+            // Get the starting position
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            
+            dragStartX = clientX;
+            dragStartY = clientY;
+            
+            // Get current palette position
+            const rect = palette.getBoundingClientRect();
+            paletteStartX = rect.left;
+            paletteStartY = rect.top;
+            
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            
+            e.preventDefault();
+            
+            const palette = document.getElementById('floatingPalette');
+            
+            // Get current mouse/touch position
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+            
+            // Calculate new position
+            const deltaX = clientX - dragStartX;
+            const deltaY = clientY - dragStartY;
+            
+            let newX = paletteStartX + deltaX;
+            let newY = paletteStartY + deltaY;
+            
+            // Keep palette within viewport bounds
+            const rect = palette.getBoundingClientRect();
+            const maxX = window.innerWidth - rect.width;
+            const maxY = window.innerHeight - rect.height;
+            
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(0, Math.min(newY, maxY));
+            
+            // Update position
+            palette.style.left = newX + 'px';
+            palette.style.top = newY + 'px';
+            
+            // Save current position
+            currentPaletteX = newX;
+            currentPaletteY = newY;
+        }
+
+        function stopDragging() {
+            if (isDragging) {
+                isDragging = false;
+                const palette = document.getElementById('floatingPalette');
+                palette.classList.remove('dragging');
+            }
+        }
 
         // Back buttons
         document.getElementById('mobileBackBtn').addEventListener('click', backToHome);
@@ -2316,7 +3015,7 @@
                     <div class="palette-option-colors">
                         ${palette.colors.map(color => `<div class="palette-preview-swatch" style="background: ${color}"></div>`).join('')}
                     </div>
-                    <div class="palette-option-desc">${palette.desc}</div>
+                    <div class="palette-option-desc">${palette.desc || ''}</div>
                 `;
                 
                 option.addEventListener('click', () => {
@@ -2332,7 +3031,29 @@
             
             document.getElementById('confirmPalette').onclick = () => {
                 modal.classList.remove('active');
-                currentPaletteIndex = selectedPaletteIndex;
+                
+                // Check if we're on custom tab and have custom colors
+                const customTab = document.getElementById('customTab');
+                if (customTab.classList.contains('active') && customColors.length > 0) {
+                    // Update or add custom palette
+                    const customPalette = {
+                        name: 'My Custom Palette',
+                        desc: 'Your personalized colors',
+                        colors: [...customColors]
+                    };
+                    
+                    const customIndex = currentTheme.palettes.findIndex(p => p.name === 'My Custom Palette');
+                    if (customIndex !== -1) {
+                        currentTheme.palettes[customIndex] = customPalette;
+                        currentPaletteIndex = customIndex;
+                    } else {
+                        currentTheme.palettes.push(customPalette);
+                        currentPaletteIndex = currentTheme.palettes.length - 1;
+                    }
+                } else {
+                    currentPaletteIndex = selectedPaletteIndex;
+                }
+                
                 setupColorPalettes();
                 interactionTracker.trackPaletteChange();
                 interactionTracker.trackAction('paletteChange');
