@@ -1026,6 +1026,76 @@
             animation: patternChange 0.6s ease;
         }
 
+        /* Scroll Navigation Button */
+        .scroll-nav-button {
+            position: fixed;
+            right: 1rem;
+            bottom: 100px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 16px rgba(108, 92, 231, 0.4);
+            z-index: 800;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-nav-button.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scroll-nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.5);
+        }
+
+        .scroll-nav-button:active {
+            transform: translateY(-1px);
+        }
+
+        .scroll-nav-button.up {
+            bottom: 160px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .scroll-nav-button.bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @media (min-width: 768px) {
+            .scroll-nav-button {
+                right: 2rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.6rem;
+            }
+
+            .scroll-nav-button.up {
+                bottom: 180px;
+            }
+        }
+
+        /* Hide scroll buttons on desktop when sidebar is visible */
+        @media (min-width: 768px) {
+            .canvas-container.active .scroll-nav-button {
+                display: none;
+            }
+        }
+
         /* Desktop Styles */
         @media (min-width: 768px) {
             .app-container {
@@ -1607,6 +1677,14 @@
                 <div class="mandala-canvas">
                     <svg id="mandalaSvg" class="mandala-svg" viewBox="0 0 800 800" width="800" height="800"></svg>
                 </div>
+
+                <!-- Scroll Navigation Buttons (Mobile) -->
+                <button class="scroll-nav-button" id="scrollDownBtn" title="Scroll to controls">
+                    ↓
+                </button>
+                <button class="scroll-nav-button up" id="scrollUpBtn" title="Scroll to mandala">
+                    ↑
+                </button>
 
                 <!-- Submit Button (Mobile) -->
                 <div class="submit-container" id="mobileSubmitContainer">
@@ -2614,6 +2692,11 @@
             setupColorPalettes();
             document.getElementById('desktopThemeInfo').textContent = currentTheme.info;
             loadNewPattern();
+            
+            // Initialize scroll buttons after canvas is shown
+            setTimeout(() => {
+                updateScrollButtons();
+            }, 300);
         }
 
         function selectTheme(mood, paletteIndex = 0) {
@@ -2634,6 +2717,11 @@
             document.getElementById('desktopThemeInfo').textContent = currentTheme.info;
 
             loadNewPattern();
+            
+            // Initialize scroll buttons after canvas is shown
+            setTimeout(() => {
+                updateScrollButtons();
+            }, 300);
         }
 
         function setupColorPalettes() {
@@ -2978,6 +3066,13 @@
             hideFloatingPalette();
             closeColorPanel();
             closeToolsMenu();
+            
+            // Hide scroll buttons
+            scrollDownBtn.classList.remove('visible');
+            scrollUpBtn.classList.remove('visible');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
         }
 
         // New Pattern buttons
@@ -3116,6 +3211,110 @@
             img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
             closeToolsMenu();
         }
+
+        // ========================================
+        // Scroll Navigation Functionality
+        // ========================================
+        const scrollDownBtn = document.getElementById('scrollDownBtn');
+        const scrollUpBtn = document.getElementById('scrollUpBtn');
+        let lastScrollPosition = 0;
+        let ticking = false;
+
+        // Smooth scroll function
+        function smoothScrollTo(targetY, duration = 500) {
+            const startY = window.pageYOffset || document.documentElement.scrollTop;
+            const difference = targetY - startY;
+            const startTime = performance.now();
+
+            function step(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function (ease-in-out)
+                const easeProgress = progress < 0.5
+                    ? 2 * progress * progress
+                    : -1 + (4 - 2 * progress) * progress;
+                
+                window.scrollTo(0, startY + difference * easeProgress);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+            
+            requestAnimationFrame(step);
+        }
+
+        // Update scroll button visibility based on scroll position
+        function updateScrollButtons() {
+            if (!document.getElementById('canvasContainer').classList.contains('active')) {
+                scrollDownBtn.classList.remove('visible');
+                scrollUpBtn.classList.remove('visible');
+                return;
+            }
+
+            const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const bottomNavHeight = 80;
+            const canvasTop = document.querySelector('.mandala-canvas')?.offsetTop || 0;
+            
+            // Show scroll down button when at top of canvas
+            if (scrollPosition < canvasTop + 100) {
+                scrollDownBtn.classList.add('visible');
+                scrollDownBtn.classList.add('bounce');
+            } else {
+                scrollDownBtn.classList.remove('visible');
+                scrollDownBtn.classList.remove('bounce');
+            }
+            
+            // Show scroll up button when scrolled down past canvas
+            if (scrollPosition > canvasTop + 200) {
+                scrollUpBtn.classList.add('visible');
+            } else {
+                scrollUpBtn.classList.remove('visible');
+            }
+            
+            lastScrollPosition = scrollPosition;
+        }
+
+        // Throttle scroll events for performance
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateScrollButtons();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Scroll down to bottom navigation
+        scrollDownBtn.addEventListener('click', () => {
+            const bottomNav = document.querySelector('.bottom-nav');
+            const colorPanel = document.querySelector('.color-panel');
+            
+            if (bottomNav) {
+                const targetPosition = document.documentElement.scrollHeight - window.innerHeight;
+                smoothScrollTo(targetPosition);
+            }
+        });
+
+        // Scroll up to mandala canvas
+        scrollUpBtn.addEventListener('click', () => {
+            const canvas = document.querySelector('.mandala-canvas');
+            const topControls = document.querySelector('.top-controls');
+            
+            if (canvas && topControls) {
+                const targetPosition = topControls.offsetHeight;
+                smoothScrollTo(targetPosition);
+            } else {
+                smoothScrollTo(0);
+            }
+        });
+
+        // Initial check
+        setTimeout(updateScrollButtons, 500);
 
         // ========================================
         // Interaction Tracking System
